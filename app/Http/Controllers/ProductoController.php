@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Producto;
+use Illuminate\Support\Facades\Input;
 
 class ProductoController extends Controller
 {
@@ -26,7 +27,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        return view('productos.create');
     }
 
     /**
@@ -37,7 +38,20 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $file = Input::file('imagen');
+        $aleatorio = str_random(10);
+        $nombre = $aleatorio.$file->getClientOriginalName();
+        //$file->move('peliculas',$nombre);
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+
+        Producto::create([
+            'nombre' => $request['nombre'],
+            'marca' => $request['marca'],
+            'imagen' => $nombre,
+
+        ]);
+
+        return redirect('/productos');
     }
 
     /**
@@ -59,7 +73,9 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $producto = Producto::find($id);
+
+        return view('productos.edit',compact('producto'));
     }
 
     /**
@@ -71,7 +87,23 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $producto = Producto::find($id);
+
+        $file = Input::file('imagen');
+        if (isset($file)){
+            $aleatorio = str_random(10);
+            $nombre = $aleatorio.$file->getClientOriginalName();
+            //$file->move('peliculas',$nombre);
+            \Storage::disk('local')->put($nombre,  \File::get($file));
+            \Storage::disk('local')->delete($producto->url_imagen);
+            $producto->imagen = $nombre;
+
+        }
+
+        $producto->nombre = $request['nombre'];
+        $producto->marca = $request['marca'];
+        $producto->save();
+        return redirect('/productos');
     }
 
     /**
@@ -82,6 +114,9 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $producto = Producto::find($id);
+       // \Storage::delete($producto->imagen);
+        $producto->delete();
+        return redirect('/productos');
     }
 }

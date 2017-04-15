@@ -1,7 +1,10 @@
 @extends('layaut.master')
 
 @section('contenido')
-    <table id="example" class="table">
+    <div class="col-lg-10">
+    <p><a class="btn btn-primary" href="{{ url("/productos/create")}}" role="button">Crear Producto </a></p>
+    <br>
+    <table id="example" class="table table-bordered">
         <thead>
         <tr>
             <th>ID</th>
@@ -29,16 +32,40 @@
                 <td>{{$producto->marca}}</td>
                 <td><img  src= "{{$producto->imagen}}" alt="Generic placeholder image" ></td>
                 <td>
-                    <p><a class="btn btn-default" href="{{ url("/pelicula/{$producto->producto_id}/edit")}}" role="button">editar </a></p>
-                    <form  role="form"  method="post" action="{{ url("/pelicula/{$producto->producto_id}") }}">
-                        {{ method_field('delete') }}
-                        {{ csrf_field() }}
+                    <div class="btn-group">
+                        <a title="editar" class="btn btn-primary btn-sm" href="{{ url("/productos/{$producto->producto_id}/edit")}}" role="button"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a title="eliminar" class="btn btn-danger btn-sm" type="button" class="btn btn-primary" data-toggle="modal" data-target="{{'#'.'eliminar-'.$producto->producto_id}}" role="button"><i class="glyphicon glyphicon-remove"></i> </a>
 
-                        <input class="btn btn-danger" type="submit" value="eliminar" />
-                    </form>
+                    </div>
+
                 </td>
             </tr>
+            <div class="modal fade" id="{{'eliminar-'.$producto->producto_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Desea eliminar el registro</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form  role="form"  method="post" action="{{ url("/productos/{$producto->producto_id}") }}">
+                                {{ method_field('delete') }}
+                                {{ csrf_field() }}
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-danger" type="submit" value="eliminar" />
+                            </form>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         @endforeach
         </tbody>
     </table>
+    </div>
 @endsection
