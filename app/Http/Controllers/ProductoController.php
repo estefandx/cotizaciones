@@ -119,4 +119,18 @@ class ProductoController extends Controller
         $producto->delete();
         return redirect('/productos');
     }
+
+    public function  cotizacion()
+    {
+        $productos = Producto::all();
+        return view('productos.cotizacion',compact('productos'));
+    }
+
+
+    public function  generarpdf(Request $request)
+    {
+        $nombre = $request['nombre'];
+        $valor_unitario = $request['valor_unitario'];
+        return view('productos.cotizacionpdf',compact('nombre','valor_unitario'));
+    }
 }

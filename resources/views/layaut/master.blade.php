@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/styles.css')}}">
 
     <link rel="stylesheet" href="{{asset('assets/css/datatable/datatables.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('plugins/chosen/chosen.css')}}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -43,8 +45,8 @@
                 <ul class="nav">
                     <!-- Main menu -->
                     <li><a href="/"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
-                    <li><a href="{{url('productos')}}"><i class="glyphicon glyphicon-list-alt"></i> Productos</a></li>
-                    <li><a href="calendar.html"><i class="glyphicon glyphicon-file"></i>Generar cotizacion</a></li>
+                    <li><a href="{{url('/productos')}}"><i class="glyphicon glyphicon-list-alt"></i> Productos</a></li>
+                    <li><a href="{{url('/cotizacion')}}"><i class="glyphicon glyphicon-file"></i>Generar cotizacion</a></li>
 
                 </ul>
             </div>
@@ -72,41 +74,13 @@
 <script type="text/javascript" src="{{ URL::asset('assets/js/bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('assets/js/custom.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('assets/js/datatable/datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('plugins/chosen/chosen.jquery.js') }}"></script>
+
+@yield('js')
 
 
-<script>
-    $(document).ready(function() {
-        $('#example').DataTable({
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
 
 
-            }
-
-        })
-    } );
-</script>
 
 
 

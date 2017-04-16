@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Route::resource('productos', 'ProductoController');
 
+Route::get('/cotizacion', 'ProductoController@cotizacion');
+
+Route::post('/cotizacion', 'ProductoController@generarpdf');
+
 
