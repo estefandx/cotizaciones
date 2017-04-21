@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Producto;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ProductoController extends Controller
 {
@@ -16,8 +18,9 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
-        return view('productos.list',compact('productos'));
+        //$productos = Producto::all();
+        $productos = Producto::paginate(5);
+        return view('productos.list');
     }
 
     /**
@@ -103,7 +106,9 @@ class ProductoController extends Controller
         $producto->nombre = $request['nombre'];
         $producto->marca = $request['marca'];
         $producto->save();
-        return redirect('/productos');
+
+        Session::flash('message', 'Producto editado correctamente');
+        return redirect('/productos/'.$id.'/edit');
     }
 
     /**
@@ -114,6 +119,8 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
+
+
         $producto = Producto::find($id);
        // \Storage::delete($producto->imagen);
         $producto->delete();
@@ -122,15 +129,53 @@ class ProductoController extends Controller
 
     public function  cotizacion()
     {
-        $productos = Producto::all();
+       $productos = Producto::all();
+        //$productos = DB::table('productos')->orderBy('nombre')->get();
         return view('productos.cotizacion',compact('productos'));
     }
 
 
     public function  generarpdf(Request $request)
     {
+        $total = 0;
         $nombre = $request['nombre'];
+       // DB:table('productos')->in($request['nombre'])
+       // $productos =Producto::find($request['nombre']);
         $valor_unitario = $request['valor_unitario'];
-        return view('productos.cotizacionpdf',compact('nombre','valor_unitario'));
-    }
+        $cantidad = $request['cantidad'];
+        $date = date('Y-m-d');
+         $nproductos = count($nombre)-1;
+        for ($i = 0; $i <= $nproductos; $i++) {
+            $productos[$i] =Producto::find($nombre[$i]);
+            $valor_total[$i] = $valor_unitario[$i]*$cantidad[$i];
+            $total = $total + $valor_total[$i];
+
+            //  $producto['registro']= Producto::find($nombre[$i]);
+            //  $producto['valor_unitario']= $valor_unitario[$i];
+            //   $producto['cantidad'] = $cantidad[$i];
+            // $producto['valor_total'] = $valor_unitario[$i]*$cantidad[$i];
+        }
+
+
+
+
+
+          //  $producto['registro']= Producto::find($nombre[$i]);
+          //  $producto['valor_unitario']= $valor_unitario[$i];
+         //   $producto['cantidad'] = $cantidad[$i];
+           // $producto['valor_total'] = $valor_unitario[$i]*$cantidad[$i];
+        $minombre ="estefan";
+        $view =  \View::make('productos.cotizacionpdf', compact('productos', 'valor_unitario','valor_total',
+                                'total','cantidad','nproductos'))->render();
+        $vista = \View::make('productos.prueba',compact('productos','valor_unitario','valor_total',
+                                                        'total','cantidad','nproductos','date'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($vista);
+
+        //return view('productos.cotizacionpdf',compact('productos','valor_unitario','valor_total','total','cantidad'));
+        return  $pdf->stream('reporte.pdf');
+        }
+
+       // return view('productos.cotizacionpdf',compact('nombre','valor_unitario'));
+
 }

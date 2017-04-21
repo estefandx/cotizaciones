@@ -12,6 +12,10 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-10">
+                        @if(Session::has('message'))
+                            <p> class="alert alert-success" role="alert">producto editado correctamente</p>
+                        @endif
+
                         <img src="http://lorempixel.com/50/50/?83842" alt="Generic placeholder image">
                         <form  role="form"  method="POST" action="{{ url("/productos/{$producto->producto_id}") }}" enctype="multipart/form-data">
                             {{ method_field('put') }}
@@ -35,6 +39,14 @@
                             </div>
 
                         </form>
+                            <div >
+                            <form  role="form"  method="post" action="{{ url("/productos/{$producto->producto_id}") }}">
+                                {{ method_field('delete') }}
+                                {{ csrf_field() }}
+
+                                <input style="float:left " class="btn btn-danger" type="submit" value="eliminar" />
+                            </form>
+                            </div>
                     </div>
                     <div class="col-md-2" >
 

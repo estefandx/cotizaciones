@@ -11,69 +11,24 @@
             <th>Nombre</th>
             <th>Marca</th>
             <th>Imagen</th>
-            <th>acciones</th>
+            <th>Acciones</th>
         </tr>
         </thead>
-        <tfoot>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Marca</th>
-            <th>Imagen</th>
-            <th>acciones</th>
-        </tr>
-        </tfoot>
-        <tbody>
 
-        @foreach($productos as $producto)
-            <tr>
-                <td>{{$producto->producto_id}}</td>
-                <td>{{$producto->nombre}}</td>
-                <td>{{$producto->marca}}</td>
-                <td><img  src= "{{$producto->imagen}}" alt="Generic placeholder image" ></td>
-                <td>
-                    <div class="btn-group">
-                        <a title="editar" class="btn btn-primary btn-sm" href="{{ url("/productos/{$producto->producto_id}/edit")}}" role="button"><i class="glyphicon glyphicon-pencil"></i></a>
-                        <a title="eliminar" class="btn btn-danger btn-sm" type="button" class="btn btn-primary" data-toggle="modal" data-target="{{'#'.'eliminar-'.$producto->producto_id}}" role="button"><i class="glyphicon glyphicon-remove"></i> </a>
-
-                    </div>
-
-                </td>
-            </tr>
-            <div class="modal fade" id="{{'eliminar-'.$producto->producto_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Desea eliminar el registro</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form  role="form"  method="post" action="{{ url("/productos/{$producto->producto_id}") }}">
-                                {{ method_field('delete') }}
-                                {{ csrf_field() }}
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <input class="btn btn-danger" type="submit" value="eliminar" />
-                            </form>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        @endforeach
-        </tbody>
     </table>
+        <form  id="form-eliminar" role="form"  method="post" action="{{ url('/productos')}}  ">
+            {{ method_field('delete') }}
+            {{ csrf_field() }}
+
+
+        </form>
     </div>
 @endsection
 
 @section('js')
     <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
+    $(document).ready(function() {
+        var table =    $('#example').DataTable({
                 "language": {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",
@@ -99,9 +54,72 @@
                     }
 
 
-                }
+                },
+                "processing": true,
+                "serverSide": true,
+                "ajax": "/api/productos",
+                "columns": [
+                    {data: 'producto_id'},
+                    {data: 'nombre'},
+                    {data: 'marca'},
+                    {data:'imagen'},
+                    {data: 'test'},
 
-            })
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [ 3 ],
+                        "searchable": false
+                    },
+                    {
+                        "targets": [ 4 ],
+                        "searchable": false
+                    }
+
+                ]
+            });
+
+
+
+
+            $( "#example tbody").on("click",".eliminar-producto", function(){
+            var fila = table.row($(this).parents('tr')).data();
+            console.log(fila.producto_id);
+            var id = fila.producto_id;
+            var form = $('#form-eliminar');
+            var url =form.attr('action');
+            url.trim();
+            var url_d = url.concat(id);
+
+           // console.log(url_d);
+            var data = form.serialize();
+            alert(url_d);
+
+                fila.fadeOut();
+                $.post('http://localhost:8000/productos/5', data, function (result) {
+                    alert(result.message);
+                }).fail(function () {
+                    alert('El usuario no fue eliminado');
+                    fila.show();
+                });
+        });
         } );
+
+
+//  $(document).on("click",".eliminar-producto",function(){
+
+         //alert('si entre joven');
+        // var  row = $(this).siblings('td');
+        // var  id = $(this).e
+         //var data = table.row($(this).parents("tr")).data();
+        // console.log(row);
+
+
+    // });
+    </script>
+
+    <script>
+
+
     </script>
 @endsection
