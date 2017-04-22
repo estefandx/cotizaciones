@@ -1,10 +1,37 @@
-
-<HTML>
-<HEAD>
-    <TITLE> Mi primer página de HTML</TITLE>
-
-
+<html>
+<head>
     <style>
+        body{
+            font-family: sans-serif;
+        }
+        @page {
+            margin: 160px 50px;
+        }
+        header { position: fixed;
+            left: 0px;
+            top: -160px;
+            right: 0px;
+            height: 100px;
+            background-color: #ddd;
+            text-align: center;
+        }
+        header h1{
+            margin: 10px 0;
+        }
+        header h2{
+            margin: 0 0 10px 0;
+        }
+        footer {
+            position: fixed;
+            left: 0px;
+            bottom: -140px;
+            right: 0px;
+            height: 100px;
+            background-color: #ddd;
+            text-align: center;
+        }
+
+
 
         .col-md-12 {
             width: 100%;
@@ -99,63 +126,63 @@
         .bg-red {
             background-color: #dd4b39 !important;
         }
-
-
     </style>
-</HEAD>
-<BODY>
-<div class="logo">
-    <img  src= "pdf/logo.jpg">
-</div>
-
-
-<div class="col-md-12">
-    <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title">Cotizacion de productos - <?=  $date; ?></h3>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-            <table id="example" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>imagen</th>
-                    <th>Producto</th>
-                    <th>Marca</th>
-                    <th>Valor Unitario</th>
-                    <th>Cantidad</th>
-                    <th>ValorTotal</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                @for($i = 0; $i <= $nproductos; $i++)
+<body>
+<header>
+    <img  src= "pdf/logo1.jpg" width="780px" height="120px">
+</header>
+<footer>
+    <img  src= "pdf/footer.jpg" width="780px" height="120px">
+</footer>
+<div id="content">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Cotizacion de productos - <?=  $date; ?></h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <<br>
+                <table id="example" class="table table-bordered">
+                    <thead>
                     <tr>
-                        <td>   <img  src= "{{$productos[$i]->imagen}}" width="50" height="50"></td>
-                        <td>{{$productos[$i]->nombre}}</td>
-                        <td>{{$productos[$i]->marca}}</td>
-                        <td>{{number_format($valor_unitario[$i])}}</td>
-                        <td>{{$cantidad[$i]}}</td>
-                        <td>{{number_format($valor_total[$i])}}</td>
+                        <th>imagen</th>
+                        <th>Producto</th>
+                        <th>Marca</th>
+                        <th>Valor Unitario</th>
+                        <th>Cantidad</th>
+                        <th>ValorTotal</th>
+
                     </tr>
-                @endfor
-                <tr>
-                    <td>  Total </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{{number_format($total)}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div><!-- /.box-body -->
-        <div class="box-footer clearfix">
+                    </thead>
+                    <tbody>
+                    @for($i = 0; $i <= $nproductos; $i++)
+                        <tr>
+                            <td>   <img  src= "{{$productos[$i]->imagen}}" width="50" height="50"></td>
+                            <td>{{$productos[$i]->nombre}}</td>
+                            <td>{{$productos[$i]->marca}}</td>
+                            <td>{{number_format($valor_unitario[$i])}}</td>
+                            <td>{{$cantidad[$i]}}</td>
+                            <td>{{number_format($valor_total[$i])}}</td>
+                        </tr>
+                    @endfor
+                    <tr>
+                        <td>  Total </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{number_format($total)}}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-        </div>
-    </div><!-- /.box -->
+            </div><!-- /.box-body -->
+            <div class="box-footer clearfix">
 
+            </div>
+        </div><!-- /.box -->
+    </div>
 
 </div>
-
-</BODY>
-</HTML>
+</body>
+</html>

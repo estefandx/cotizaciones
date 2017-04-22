@@ -170,6 +170,8 @@ class ProductoController extends Controller
         $vista = \View::make('productos.prueba',compact('productos','valor_unitario','valor_total',
                                                         'total','cantidad','nproductos','date'))->render();
         $pdf = \App::make('dompdf.wrapper');
+        $pdf->setPaper('A4');
+
         $pdf->loadHTML($vista);
 
         //return view('productos.cotizacionpdf',compact('productos','valor_unitario','valor_total','total','cantidad'));
