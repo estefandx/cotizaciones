@@ -1,6 +1,6 @@
 <html>
 <head>
-    <style>
+    <style type='text/css'>
         body{
             font-family: sans-serif;
         }
@@ -97,16 +97,25 @@
             width: 100%;
             max-width: 100%;
             margin-bottom: 20px;
+            border: 5px;
+            border-color: black;
         }
 
         table {
-            background-color: transparent;
+            background-color: white;
         }
 
         .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
-            border: 1px solid #f4f4f4;
+            border: 2px solid black;
         }
 
+        td{
+            text-align: center;
+        }
+
+        th{
+            text-align: center;
+        }
 
         .badge {
             display: inline-block;
@@ -126,22 +135,42 @@
         .bg-red {
             background-color: #dd4b39 !important;
         }
+
+        .transp-block {
+            background: #000 url() no-repeat;
+            width: 575px;
+            height: 335px;
+        }
+
+        #marca-agua {
+            filter:alpha(opacity=75);
+            opacity:.75;
+        }
+        #content {
+            background-image: url('/public/pdf/marca-agua.jpg');
+            background-repeat:no-repeat;
+            background-position: top;
+        }
+
+
     </style>
 <body>
 <header>
     <img  src= "pdf/logo1.jpg" width="780px" height="120px">
+    <!--<img id="marca-agua" src= "pdf/marca-agua.jpg" width="500px" height="600px"  style="margin-left: 250px; opacity: 90">-->
 </header>
 <footer>
     <img  src= "pdf/footer.jpg" width="780px" height="120px">
 </footer>
 <div id="content">
+
+
     <div class="col-md-12">
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Cotizacion de productos - <?=  $date; ?></h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <<br>
                 <table id="example" class="table table-bordered">
                     <thead>
                     <tr>
